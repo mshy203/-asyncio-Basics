@@ -16,3 +16,5 @@ async def main():
      )
     print("Lol2a")
     end_time = time.time()
+
+asyncio.run(main())
