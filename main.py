@@ -30,3 +30,14 @@ async def fetch_user_data(user_id: int):
         except Exception as e:
             logging.error(f"Непередбачувана помилка: {e}")
         return None
+
+    async def main():
+     print("--- ТЕСТ 1: Успішний запит ---")
+     user_data = await fetch_user_data(1)
+     if user_data:
+        print(f"Результат Python: Ім'я — {user_data.get('name')}, Місто — {user_data.get('address', {}).get('city')}")
+
+     print("\n--- ТЕСТ 2: Помилковий запит (404) ---")
+     await fetch_user_data(9999)
+
+asyncio.run(main())
