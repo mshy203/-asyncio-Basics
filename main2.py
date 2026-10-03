@@ -39,3 +39,21 @@ async def get_task_by_id(task_id: int) -> Optional[Dict[str, Any]]:
         except httpx.RequestError as e:
             logging.error(f"Помилка мережі: {e}")
         return None
+
+async def create_task(title: str, user_id: int) -> Optional[Dict[str, Any]]:
+    logging.info(f"Створення нової задачі: '{title}'")
+    payload = {
+        "title": title,
+        "completed": False,
+        "userId": user_id
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(BASE_URL, json=payload, timeout=5.0)
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPStatusError as e:
+            logging.error(f"Не вдалося створити задачу. Статус: {e.response.status_code}")
+        except httpx.RequestError as e:
+            logging.error(f"Помилка мережі: {e}")
+        return None
