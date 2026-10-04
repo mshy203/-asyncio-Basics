@@ -57,3 +57,12 @@ async def create_task(title: str, user_id: int) -> Optional[Dict[str, Any]]:
         except httpx.RequestError as e:
             logging.error(f"network died: {e}")
         return None
+
+def print_task_card(task: Dict[str, Any]) -> None:
+    status_icon = "✅ W" if task.get('completed') else "❌ L"
+    print(f"┌────────────────────────────────────────")
+    print(f"│ Task ID: {task.get('id')}")
+    print(f"│ Title:   {task.get('title')}")
+    print(f"│ Status:  {status_icon}")
+    print(f"│ User ID: {task.get('userId')}")
+    print(f"└────────────────────────────────────────\n")
