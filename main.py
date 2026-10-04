@@ -22,3 +22,20 @@ async def get_tasks() -> Optional[List[Dict[str, Any]]]:
         except httpx.RequestError as e:
             logging.error(f"network died: {e}")
         return None
+
+async def get_task_by_id(task_id: int) -> Optional[Dict[str, Any]]:
+    url = f"{BASE_URL}/{task_id}"
+    logging.info(f"grabbin task #{task_id}...")
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, timeout=5.0)
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 404:
+                logging.warning(f"task {task_id} got ghosted (404)")
+            else:
+                logging.error(f"HTTP cooked: {e.response.status_code}")
+        except httpx.RequestError as e:
+            logging.error(f"network died: {e}")
+        return None
