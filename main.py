@@ -66,3 +66,15 @@ def print_task_card(task: Dict[str, Any]) -> None:
     print(f"│ Status:  {status_icon}")
     print(f"│ User ID: {task.get('userId')}")
     print(f"└────────────────────────────────────────\n")
+
+async def run_demo() -> None:
+    print("\n--- DEMO ---")
+    task = await get_task_by_id(3)
+    if task:
+        print_task_card(task)
+    created = await create_task("Learn Async Python fr", user_id=5)
+    if created:
+        print_task_card(created)
+    await get_task_by_id(88888)
+if __name__ == "__main__":
+    asyncio.run(run_demo())
