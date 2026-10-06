@@ -19,4 +19,9 @@ class TaskResponse(BaseModel):
  priority: int
  status: str
  xp: int
- 
+
+class Config:
+ from_attributes = True
+
+fake_db = []
+id_counter = 1
